@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.meal_ordering_system.dao.ServerDao">
+
+    <resultMap type="com.example.meal_ordering_system.entity.Server" id="ServerMap">
+        <result property="SerNo" column="SerNo" jdbcType="VARCHAR"/>
+        <result property="SerName" column="SerName" jdbcType="VARCHAR"/>
+        <result property="SerSex" column="SerSex" jdbcType="VARCHAR"/>
+        <result property="SerAge" column="SerAge" jdbcType="VARCHAR"/>
+        <result property="SerPwd" column="SerPwd" jdbcType="VARCHAR"/>
+    </resultMap>
+    <select id="queryBySerNo" resultMap="ServerMap">
+        select SerNo,
+               SerName,
+               SerSex,
+               SerAge,
+               SerPwd
+        from apsfc.server
+        where SerNo = #{SerNo}
+    </select>
+    <!--查询单个-->
+    <select id="queryBySerName" resultMap="ServerMap">
+        select SerNo,
+               SerName,
+               SerSex,
+               SerAge,
+               SerPwd
+        from apsfc.server
+        where SerName = #{SerName}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="ServerMap">
+        select SerNo,
+               SerName,
+               SerSex,
+               SerAge,
+               SerPwd
+        from apsfc.server
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="ServerMap">
+        select SerNo,
+               SerName,
+               SerSex,
+               SerAge,
+               SerPwd
+        from apsfc.server
+        <where>
+            <if test="SerNo != null and SerNo != ''">
+                and SerNo = #{SerNo}
+            </if>
+            <if test="SerName != null and SerName != ''">
+                and SerName = #{SerName}
+            </if>
+            <if test="SerPwd != null and SerPwd != ''">
+                and SerPwd = #{SerPwd}
+            </if>
+            <if test="SerSex != null and SerSex != ''">
+                and SerSex = #{SerSex}
+            </if>
+            <if test="SerAge != null and SerAge != ''">
+                and SerAge = #{SerAge}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="SerNo" useGeneratedKeys="true">
+        insert into apsfc.server(SerName, SerSex, SerAge,SerPwd)
+        values (#{SerName}, #{SerSex}, #{SerAge},#{SerPwd})
+    </insert>
+
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update apsfc.server
+        <set>
+            <if test="SerName != null and SerName != ''">
+                SerName = #{SerName},
+            </if>
+            <if test="SerSex != null and SerSex != ''">
+                SerSex = #{SerSex},
+            </if>
+            <if test="SerAge != null and SerAge != ''">
+                SerAge = #{SerAge},
+            </if>
+            <if test="SerPwd != null and SerPwd != ''">
+                SerPwd = #{SerPwd},
+            </if>
+        </set>
+        where SerNo = #{SerNo}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete
+        from apsfc.server
+        where SerNo = #{SerNo}
+    </delete>
+
+</mapper>

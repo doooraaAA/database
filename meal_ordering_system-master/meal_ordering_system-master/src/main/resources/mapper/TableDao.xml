@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.meal_ordering_system.dao.TableDao">
+
+    <resultMap type="com.example.meal_ordering_system.entity.Table" id="TableMap">
+        <result property="TableNo" column="TableNo" jdbcType="VARCHAR"/>
+        <result property="Status" column="Status" jdbcType="INTEGER"/>
+    </resultMap>
+    <parameterMap type="com.example.meal_ordering_system.entity.Table" id="TableParamMap">
+        <parameter property="TableNo" jdbcType="VARCHAR"/>
+        <parameter property="Status" jdbcType="INTEGER"/>
+    </parameterMap>
+    <!--通过实体作为筛选条件查询-->
+    <!--根据id查询元素-->
+    <select id="queryStatusById" resultType="int">
+        select Status
+        from apsfc.table
+        where TableNo=#{TableNo}
+    </select>
+    <select id="selecttable" resultMap="TableMap">
+        select TableNo,Status
+        from apsfc.table
+        where TableNo=#{TableNo}
+    </select>
+    <update id="updateStatusById" parameterMap="TableParamMap">
+        UPDATE apsfc.table
+        SET Status=#{Status}
+        WHERE TableNo=#{TableNo}
+    </update>
+    <select id="queryAll" resultMap="TableMap">
+        select
+            TableNo, Status
+        from apsfc.table
+    </select>
+    <insert id="insert">
+        insert into  apsfc.table(TableNo,Status) VALUES (#{TableNo},0)
+    </insert>
+    <delete id="delete" >
+        DELETE FROM apsfc.table WHERE TableNo = #{TableNo}
+    </delete>
+</mapper>
